@@ -12,13 +12,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import outils.CustomedException;
+import traitements.GestionClient;
 
 /**
  *
  * @author djtew
  */
-@WebServlet(name = "HomeServlet", urlPatterns = {"/home"}) //home = route
-public class HomeServlet extends HttpServlet {
+@WebServlet(name = "InscriptionServlet", urlPatterns = {"/inscription"})
+public class InscriptionServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,13 +34,32 @@ public class HomeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       request.setCharacterEncoding("UTF-8");
-       String urlJSP = "/WEB-INF/home.jsp";   // home.jsp = fihier jsp 
+        request.setCharacterEncoding("UTF-8");
+        
+        String urlJSP = "/WEB-INF/home.jsp";
+        
+         // algo ici
+        
+        String nom = request.getParameter("nom"); // en orange c'est le parametre enregistre dans inscription-form
+        String prenom = request.getParameter("prenom");
+        String email = request.getParameter("email");
+        String pwd = request.getParameter("pwd");
+        String pwd2 = request.getParameter("pwd2");
+        
+        // maladroit !!!!
+        GestionClient gtClient = new GestionClient();
+        try{
+          gtClient.creerNouveauClient(nom, prenom, email, pwd, pwd2);   
+        }catch(CustomedException ex){
+            String message = ex.getMessage();
+            System.out.println(message);
+            request.setAttribute("msg", message);
+            urlJSP = "/WEB-INF/inscription-form.jsp";
+        }
        
-       // mettre ici l'algo
-       
-      getServletContext().getRequestDispatcher(urlJSP).include(request, response);
-    }
+        
+        System.out.println(">>>>>>>>>>>>> urlJSP : " +urlJSP);
+        getServletContext().getRequestDispatcher(urlJSP).include(request, response);    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
