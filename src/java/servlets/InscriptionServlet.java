@@ -7,6 +7,8 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,20 +43,43 @@ public class InscriptionServlet extends HttpServlet {
          // algo ici
         
         String nom = request.getParameter("nom"); // en orange c'est le parametre enregistre dans inscription-form
+       nom = nom.trim();
+       
         String prenom = request.getParameter("prenom");
+        prenom = prenom.trim();
         String email = request.getParameter("email");
+        email = email.trim();
         String pwd = request.getParameter("pwd");
         String pwd2 = request.getParameter("pwd2");
         
         // maladroit !!!!
         GestionClient gtClient = new GestionClient();
         try{
-          gtClient.creerNouveauClient(nom, prenom, email, pwd, pwd2);   
+          gtClient.creerNouveauClient(nom, prenom, email, pwd, pwd2);  
+          
+          request.setAttribute("msgSucces", "Inscription réussie");
+          
         }catch(CustomedException ex){
+            // messages d'erreurs
+            HashMap<String, String> erreurs = ex.getErreurs();
             String message = ex.getMessage();
             System.out.println(message);
             request.setAttribute("msg", message);
+            //maladroit
+            request.setAttribute("errPwd", erreurs.get("errPwd"));
+            request.setAttribute("errMail", erreurs.get("errMail"));
+            
+            
+            // saisies de lutilisateur à remettre ds le formulaire
+            request.setAttribute("nom", nom);
+            request.setAttribute("prenom", prenom);
+            request.setAttribute("email", email); // en noir ce que avait saisi l'utilisateur et en orrange ce qui est écris dans l'expression langage
+            
+            
             urlJSP = "/WEB-INF/inscription-form.jsp";
+            
+        }catch(SQLException ex){
+            System.out.println(">>>>>> erreur debug1: " +ex.getMessage());
         }
        
         

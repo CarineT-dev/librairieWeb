@@ -6,6 +6,8 @@
 */
 package traitements;
 
+import dao.ClientDao;
+import java.sql.SQLException;
 import java.util.HashMap;
 import outils.CustomedException;
 
@@ -14,16 +16,18 @@ public class GestionClient {
 
     
     // propriétes
+    
+    private ClientDao clientDao;
     //construteurs
     
     public GestionClient() {
-        
+        clientDao = new ClientDao();
     }
     
     // methodes ou comportement
     
     public void creerNouveauClient(String nom, String prenom, 
-            String email, String pwd, String pwd2) throws CustomedException{
+            String email, String pwd, String pwd2) throws CustomedException, SQLException{
      
         HashMap<String, String> erreurs = new HashMap<>();
         // verification des mots de passe
@@ -36,12 +40,21 @@ public class GestionClient {
             
         }
         
+        int qte = clientDao.verifierExistanceEmail(email);
+        if(qte>0){
+            erreurs.put("errMail", "Adresse mail déjà utilisée");
+        }
+        
         // à suivre...
         
         if(!erreurs.isEmpty()){
             CustomedException ex = new CustomedException(erreurs, "Echec de l'inscription");
             
             throw ex; // on fait remonter/propager l'exception
+        } else{
+            //si pas d'erreurs, on sauvegarde le client dans la base de données
+        clientDao.insertClient(nom, prenom, email, pwd);
+        //si problème on refait remonter le pb au servlet
         }
     }
     
