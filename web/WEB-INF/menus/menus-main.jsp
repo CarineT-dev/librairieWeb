@@ -21,7 +21,7 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#">Catalogue</a>
+                <a class="nav-link" href="vers-catalogue">Catalogue</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Panier</a>
