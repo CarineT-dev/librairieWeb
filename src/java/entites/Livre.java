@@ -150,6 +150,10 @@ public class Livre {
     public void setAuteurs(List<Auteur> auteurs) {
         this.auteurs = auteurs;
     }
+    
+    public float getPrixTTC(){
+        return prixHT  + prixHT*(tva.getTaux()/100);
+    }
 
     @Override
     public String toString() {

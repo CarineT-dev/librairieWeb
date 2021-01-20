@@ -24,11 +24,12 @@
             <h1>Notre Catalogue</h1>                            
 
             <div class="card-deck justify-content-center mt-5">
+                
                 <c:forEach items="${requestScope.catalogue}" var="livre">
                     <div class="card mb-4" style="min-width:18rem; max-width:18rem;">
-                        <a href='#?ean=<c:out value="${livre.ean}"/>'> <img class="card-img-top" src='images/<c:out value="${livre.image}" />' alt='couverture <c:out value="${livre.titre}" />'></a>
+                        <a href='vers-livre?ean=<c:out value="${livre.ean}"/>'> <img class="card-img-top" src='images/<c:out value="${livre.image}" />' alt='couverture <c:out value="${livre.titre}" />'></a>
                              <div class="card-body">
-                            <h1 class="h3"><a href='#?ean=<c:out value="${livre.ean}"/>'><c:out value="${livre.titre}" />></a></h1>
+                            <h1 class="h3"><a href='vers-livre?ean=<c:out value="${livre.ean}"/>'><c:out value="${livre.titre}" />></a></h1>
                             <p class="card-text">prix HT:<fmt:formatNumber value="${livre.prixHT}" minFractionDigits="2" maxFractionDigits="2"/> £</p>
                         </div>
                     </div>
