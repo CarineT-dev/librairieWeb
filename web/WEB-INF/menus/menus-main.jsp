@@ -24,7 +24,7 @@
                 <a class="nav-link" href="vers-catalogue">Catalogue</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Panier</a>
+                <a class="nav-link" href="vers-detail-panier">Panier ${requestScope.qte}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="vers-inscription">S'inscrire</a>

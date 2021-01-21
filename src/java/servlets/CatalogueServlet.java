@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import traitements.GestionLivre;
 
 
@@ -33,12 +34,19 @@ public class CatalogueServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
        request.setCharacterEncoding("UTF-8");
+         HttpSession session = request.getSession();
        
        String urlJSP = "/WEB-INF/catalogue.jsp";
        
        //TODO algo pour récupérer les livres
        // MALADROIT: on extancie pas les objets plusieurs fois, faut trouver le moyen de le faire une fois et le reutiliser après
-        GestionLivre gestionLivre = new GestionLivre();
+       // BON
+       if(getServletContext().getAttribute("gestionLivre") == null){ //get Attribute recupere lobjet
+                
+                getServletContext().setAttribute("gestionLivre", new GestionLivre()); //set Attribute met lobjet
+            }
+       
+       GestionLivre gestionLivre = (GestionLivre) getServletContext().getAttribute("gestionLivre");
         try{
         List<Livre> catalogues = gestionLivre.selectAllLivres();
         

@@ -7,19 +7,24 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import traitements.GestionPanier;
 
 /**
  *
  * @author djtew
  */
-@WebServlet(name = "HomeServlet", urlPatterns = {"/home"}) //home = route
-public class HomeServlet extends HttpServlet {
+@WebServlet(name = "PanierServlet", urlPatterns = {"/vers-panier"})
+public class PanierServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,13 +39,42 @@ public class HomeServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
        request.setCharacterEncoding("UTF-8");
-         HttpSession session = request.getSession();
-         
-       String urlJSP = "/WEB-INF/home.jsp";   // home.jsp = fihier jsp 
-       
-       // mettre ici l'algo
-       
-      getServletContext().getRequestDispatcher(urlJSP).include(request, response);
+        HttpSession session = request.getSession();
+        
+        String urlJSP = "/WEB-INF/home.jsp";
+        
+        // on recupere les parametres derriere l'url
+        String operation = request.getParameter("operation");
+        String ean = request.getParameter("ean");
+        
+        //algo
+       // request.setAttribute("msgSucces", "Panier mis à jour");
+        
+        if(session.getAttribute("gestionPanier")==null){
+            session.setAttribute("gestionPanier", new GestionPanier());
+        }
+        GestionPanier gestionPanier = (GestionPanier) session.getAttribute("gestionPanier"); //(GestionPanier)= cast
+        
+        if("ajouter".equals(operation)){ // exception: sourround statement with try catch
+            try {
+                gestionPanier.addLivre(ean);
+            } catch (SQLException ex) {
+                Logger.getLogger(PanierServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(PanierServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        // if(enlever.equals(operation)....
+        
+        
+        
+        
+        //on tue la qequete coté serveur et on la redirige vers catalogue, donc plus de getServletContext().getRequestDispatcher(urlJSP).include(request, response);
+    
+    response.sendRedirect("vers-catalogue"); // plus d'url avec ajout au panier http://localhost:8080/librairieWeb/vers-catalogue (operation= ajouter a été tué par le sendRedirect)
+    // donc le refresh najoute plus rien
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

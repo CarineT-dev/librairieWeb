@@ -1,6 +1,6 @@
 <%-- 
-    Document   : home
-    Created on : 12 janv. 2021, 10:15:43
+    Document   : detail-panier
+    Created on : 21 janv. 2021, 12:43:40
     Author     : djtew
 --%>
 
@@ -20,18 +20,27 @@
 
         <div class="container mt-4">
             
-            <c:if test="${not empty requestScope.msgSucces}">
-              <div class="alert alert-success alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Félicitations!</strong> ${requestScope.msgSucces}
-            </div>  
-            </c:if>
-
+            <h1>Votre panier</h1>
             
-            
-            
-            <h1>Home</h1>
-            <p>Bienvenue sur la page home</p>    
+            <table>
+                <thead>
+                    <tr>
+                        <th>EAN</th>
+                        <th>Titre</th>
+                        <th>Prix TTC / unité</th>
+                        <th> Qté</th>
+                    </tr>
+                </thead>
+                   <c:forEach items="${requestScope.lignesPanier}" var="ligne">
+                        <tr>
+                            <td><c:out value="${ligne.livre.ean}" /></td>
+                            <td><c:out value="${ligne.livre.titre}" /></td>
+                            <td><c:out value="${ligne.livre.prixTTC}" /></td>
+                            <td><c:out value="${ligne.qte}" /></td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
         </div>
 
 
@@ -42,3 +51,4 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     </body>
 </html>
+
