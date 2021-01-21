@@ -13,13 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import traitements.GestionPanier;
 
 /**
  *
  * @author djtew
  */
-@WebServlet(name = "HomeServlet", urlPatterns = {"/home"}) //home = route
-public class HomeServlet extends HttpServlet {
+@WebServlet(name = "MenuMainServlet", urlPatterns = {"/vers-menu-main"})
+public class MenuMainServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,14 +34,21 @@ public class HomeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       request.setCharacterEncoding("UTF-8");
-         HttpSession session = request.getSession();
-         
-       String urlJSP = "/WEB-INF/home.jsp";   // home.jsp = fihier jsp 
+        request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
+        
+        
+        String urlJSP = "/WEB-INF/menus/menus-main.jsp";
+       if(session.getAttribute("gestionPanier")==null){
+            session.setAttribute("gestionPanier", new GestionPanier());
+        }
+       GestionPanier gestionPanier = (GestionPanier) session.getAttribute("gestionPanier");
        
-       // mettre ici l'algo
-       
-      getServletContext().getRequestDispatcher(urlJSP).include(request, response);
+       int qte = gestionPanier.CompterArticles();
+       request.setAttribute("qte", "("+qte+")");
+      
+        
+        getServletContext().getRequestDispatcher(urlJSP).include(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

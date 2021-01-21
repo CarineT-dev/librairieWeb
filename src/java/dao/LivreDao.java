@@ -35,7 +35,7 @@ public class LivreDao {
         List <Livre> livres = new ArrayList<>();
         
         try(Connection cnn = mcBDD.getConnection();){
-            String sql = "SELECT * FROM livre";
+            String sql = "SELECT * FROM livre"; // faire une jointure pou tva pour afficher TTC
             PreparedStatement pstm = cnn.prepareStatement(sql);
             ResultSet rs = pstm.executeQuery();
             while(rs.next()){

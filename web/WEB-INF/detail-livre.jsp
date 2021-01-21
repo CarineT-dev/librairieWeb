@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,7 +17,7 @@
     </head>
     <body>
 
-        <c:import url="WEB-INF/menus/menus-main.jsp" />
+       <c:import url="/vers-menu-main" />
 
         <div class="container mt-4">
             
@@ -34,16 +35,20 @@
                 <img src='images/<c:out value="${livre.image}" />' alt='couverture <c:out value="${livre.titre}" />'>
                 
                 <br>
-                <p>Titre: <c:out value="${requestScope.livre.titre}"/> </p>
-                <p> Resumé: <c:out value="${requestScope.livre.resume}"/> </p>
-                <p>Editeur: <c:out value="${requestScope.livre.editeur.nom}"/> </p>
+                <p>Titre : <c:out value="${requestScope.livre.titre}"/> </p>
+                <p> Resumé : <c:out value="${requestScope.livre.resume}"/> </p>
+                <p>Editeur : <c:out value="${requestScope.livre.editeur.nom}"/> </p>
                 
-                <p>Prix HT: <c:out value="${requestScope.livre.prixHT}"/> </p>
-                <p>taux TVA: <c:out value="${requestScope.livre.tva.taux}"/> </p>
-                <p>Prix TTC: <c:out value="${requestScope.livre.prixTTC}"/> </p>
+                <p>Prix HT : <fmt:formatNumber value="${requestScope.livre.prixHT}" minFractionDigits="2" maxFractionDigits="2"/> £</p>
+                
+                
+                <p>Taux TVA : <c:out value="${requestScope.livre.tva.taux}"/> </p>
+                
+                <p class="prixttc">Prix TTC : <fmt:formatNumber value="${requestScope.livre.prixTTC}" minFractionDigits="2" maxFractionDigits="2"/> £</p> 
+               
                 
                 </c:if>
-                    
+                   
               
         </div>
 

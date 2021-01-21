@@ -19,7 +19,7 @@
     </head>
     <body>
         <!-- navigation -->
-        <c:import url="WEB-INF/menus/menus-main.jsp" />
+        <c:import url="/vers-menu-main" />
 
         <!-- contenu -->
         <div class="container mt-4">

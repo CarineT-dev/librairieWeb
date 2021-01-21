@@ -17,7 +17,7 @@
     </head>
     <body>
         <!-- navigation -->   
-        <c:import url="WEB-INF/menus/menus-main.jsp" />
+        <c:import url="/vers-menu-main" />
 
         <!-- content -->
         <div class="container-fluid justify-content-center mt-4">
@@ -31,6 +31,15 @@
                              <div class="card-body">
                             <h1 class="h3"><a href='vers-livre?ean=<c:out value="${livre.ean}"/>'><c:out value="${livre.titre}" />></a></h1>
                             <p class="card-text">prix HT:<fmt:formatNumber value="${livre.prixHT}" minFractionDigits="2" maxFractionDigits="2"/> £</p>
+                            
+                            <a href='vers-panier?operation=ajouter&ean=<c:out value="${livre.ean}"/>'>Ajouter au panier</a>
+                            
+                             <p>Taux TVA : <c:out value="${livre.tva.taux}"/> </p>
+                           <!-- 
+                           A REVOIR
+                             <p>Taux TVA : <c:out value="${livre.tva.taux}"/> </p>
+                            <p class="prixttc">Prix TTC : <fmt:formatNumber value="${requestScope.livre.prixTTC}" minFractionDigits="2" maxFractionDigits="2"/> £</p> 
+                           -->
                         </div>
                     </div>
                 </c:forEach>
