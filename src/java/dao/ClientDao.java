@@ -5,6 +5,8 @@
  */
 package dao;
 
+
+import entites.Client;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -69,6 +71,37 @@ public class ClientDao {
            
        }
         
+    }
+    
+    public Client selectClientByEmailAndPassword(String email, String password) throws SQLException{
+        
+        Client user = null;
+       
+         try(Connection cnn = mcBDD.getConnection();){ 
+          
+           String sql = "SELECT * FROM client "
+                   + " WHERE client_email = ? AND client_mdp = md5(?)";
+           PreparedStatement pstm = cnn.prepareStatement(sql);
+           pstm.setString(1, email);
+           pstm.setString(2, password);
+            ResultSet rs = pstm.executeQuery();
+        if(rs.next()){ // s'il ya un match dans la BDD
+            user = new Client();
+            user.setId(rs.getInt("client_id")); //ne jamais faire un println ou affichage de la cle primaire dun client
+            user.setNom(rs.getString("client_nom"));
+            user.setPrenom(rs.getString("client_prenom"));
+            
+            user.setEmail(rs.getString("client_email"));
+            
+            
+        }
+           
+          
+           
+           
+       }
+        
+         return user;
     }
     
     

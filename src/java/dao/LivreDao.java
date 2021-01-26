@@ -29,6 +29,8 @@ public class LivreDao {
         this.mcBDD = mcBDD;
     }
     
+    
+   
     // methodes pour exécuter les requetes SQL
     
     public List< Livre> selectAllLivres() throws SQLException{
@@ -36,6 +38,8 @@ public class LivreDao {
         
         try(Connection cnn = mcBDD.getConnection();){
             String sql = "SELECT * FROM livre"; // faire une jointure pou tva pour afficher TTC
+           
+            
             PreparedStatement pstm = cnn.prepareStatement(sql);
             ResultSet rs = pstm.executeQuery();
             while(rs.next()){
@@ -47,6 +51,9 @@ public class LivreDao {
                 lv.setEan(rs.getString("livre_ean"));
                 lv.setImage(rs.getString("livre_image"));
                 lv.setPrixHT(rs.getFloat("livre_prixHT"));
+                
+                
+                
                 
                 livres.add(lv);
                 
@@ -118,3 +125,119 @@ public class LivreDao {
     
     
 }
+
+/*
+
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Date;
+
+
+public class MessageDao {
+    
+    private MaConnexionBDD mcBDD;
+
+    public MessageDao() {
+        mcBDD = new MaConnexionBDD();
+    }
+
+    public MessageDao(MaConnexionBDD mcBDD) {
+        this.mcBDD = mcBDD;
+    }
+
+    public void setMcBDD(MaConnexionBDD mcBDD) {
+        this.mcBDD = mcBDD;
+    }
+    
+    public void insererMessage(String contenu, Date dateMessage ) throws SQLException{
+        
+        try( Connection cnn = mcBDD.getConnection();){
+            String sql = "INSERT INTO "
+                    + "message(message_contenu, message_date, membre_id) "
+                    + "VALUES(?,?,1)";
+            PreparedStatement pstm = cnn.prepareStatement(sql);
+            pstm.setString(1, contenu);
+            pstm.setDate(2, java.sql.Date(dateMessage.getTime()) );
+            
+        }
+    }
+    
+    
+}
+
+package entites;
+
+import java.util.Date;
+
+
+public class message {
+    private int id;
+    private String contenu;
+    private Date dateMessage;
+    private Membre membre;
+
+    public message() {
+    }
+
+    public message(int id, String contenu, Date dateMessage) {
+        this.id = id;
+        this.contenu = contenu;
+        this.dateMessage = dateMessage;
+    }
+
+    public message(int id, String contenu, Date dateMessage, Membre membre) {
+        this.id = id;
+        this.contenu = contenu;
+        this.dateMessage = dateMessage;
+        this.membre = membre;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getContenu() {
+        return contenu;
+    }
+
+    public void setContenu(String contenu) {
+        this.contenu = contenu;
+    }
+
+    public Date getDateMessage() {
+        return dateMessage;
+    }
+
+    public void setDateMessage(Date dateMessage) {
+        this.dateMessage = dateMessage;
+    }
+
+    public Membre getMembre() {
+        return membre;
+    }
+
+    public void setMembre(Membre membre) {
+        this.membre = membre;
+    }
+
+    
+    
+    
+    
+}
+
+
+
+
+
+
+
+
+*/

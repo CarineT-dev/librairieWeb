@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <nav class="navbar navbar-expand-md bg-dark navbar-dark">
     <!-- Brand -->
     <a class="navbar-brand" href="home"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
@@ -26,12 +27,29 @@
             <li class="nav-item">
                 <a class="nav-link" href="vers-detail-panier">Panier ${requestScope.qte}</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="vers-inscription">S'inscrire</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Se connecter</a>
-            </li>
+
+            <c:if test="${empty sessionScope.user}">
+
+
+                <li class="nav-item">
+                    <a class="nav-link" href="vers-inscription">S'inscrire</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="vers-login">Se connecter</a>
+                </li>
+            </c:if>
+            
+             <c:if test="${not empty sessionScope.user}">
+
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Quitter </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Bienvenue <c:out value="${sessionScope.user.nom}" /></a>
+                </li>
+            </c:if>
+
         </ul>
     </div>
 </nav>
