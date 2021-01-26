@@ -7,6 +7,7 @@
 package traitements;
 
 import dao.ClientDao;
+import entites.Client;
 import java.sql.SQLException;
 import java.util.HashMap;
 import outils.CustomedException;
@@ -56,6 +57,35 @@ public class GestionClient {
         clientDao.insertClient(nom, prenom, email, pwd);
         //si problème on refait remonter le pb au servlet
         }
+    }
+    
+    public Client seConnecter(String email, String password) throws CustomedException, SQLException{
+        Client user = null;
+        HashMap<String, String> erreurs = new HashMap<>();
+        
+        if(email == null || email.trim().isEmpty()){
+            erreurs.put("ErrEmail", "email obligatoire");
+        } else {
+            email = email.trim();
+        }
+        
+        if(password == null || password.isEmpty()){
+            erreurs.put("errPassword", "mot de passe obligatoire");
+        }
+        if(!erreurs.isEmpty()){
+            CustomedException ex = new CustomedException(erreurs, "échec de la connexion");
+            throw ex;
+        // on propage lexception par throw, et dans ce cas la suite du code n'est pas exécuté, on passe au bloque suivant
+       // et donc pas de else
+        }
+        
+        user = clientDao.selectClientByEmailAndPassword(email, password);
+        if(user == null){
+            CustomedException ex02 = new CustomedException(erreurs, "compte introuvable");
+            throw ex02;
+        }
+        
+        return user;
     }
     
 }
